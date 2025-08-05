@@ -1,0 +1,29 @@
+[MASTER]
+load-plugins = pylint_django
+ignore=migrations
+django-settings-module=mtg_site.settings
+
+[MESSAGES CONTROL]
+disable =
+    C0301, # line-too-long
+    C0114, # missing-module-docstring
+    E5142, # imported auth user
+    W0611, # unused import
+
+[FORMAT]
+max-line-length = 100
+
+[DESIGN]
+max-args=10
+max-attributes=15
+
+[IMPORTS]
+known-third-party=django
+
+[TYPECHECK]
+ignored-modules=pytest
+
+[REPORTS]
+output-format = colorized
+reports=no
+

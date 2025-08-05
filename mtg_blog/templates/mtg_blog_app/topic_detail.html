@@ -1,0 +1,14 @@
+{% extends 'mtg_blog_app/base.html' %}
+
+{% block content %}
+<h1>Posts for Topic: {{ topic.name }}</h1>
+{% for post in posts%}
+    <article>
+        <h2>{{ post.title }}</h2>
+        <p>{{ post.content|truncatewords:30 }}</p>
+        <p>By {{ post.author }}, published {{ post.publish }}</p>
+    </article>
+{% empty %}
+<p>No published post for this topic.</p>
+{% endfor %}
+{% endblock %}

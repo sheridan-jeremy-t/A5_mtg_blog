@@ -1,0 +1,18 @@
+{% extends 'mtg_blog_app/base.html' %}
+
+{% block title %}Topics{% endblock %}
+
+{% block content %}
+<div>
+    <h1>All Topics</h1>
+    <div>
+        {% for topic in topics %}
+            <h5>
+                <a href="{{ topic.get_absolute_url }}">{{ topic.name }}</a>
+            </h5>
+        {% empty %}
+            <p>No topics found</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

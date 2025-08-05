@@ -1,0 +1,20 @@
+{% extends 'mtg_blog_app/base.html' %}
+
+{% block content %}
+
+<aside>
+    <h1>Top Topics</h1>
+    <ul>
+        {% for topic in topics %}
+        <li>
+            <a href="{{ topic.get_absolute_url }}">{{ topic.name }} ({{ topic.num_posts }})</a>
+        </li>
+        {%empty%}
+        <li>No topics yet.</li>
+        {% endfor %}
+    </ul>
+</aside>
+<section>
+    <p>Welcome to the Magic: The Gathering Blog!</p>
+</section>
+{% endblock %}
