@@ -75,3 +75,26 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created']
+
+class PhotoSubmission(models.Model):
+    """Model for photo contest submission"""
+
+    name = models.CharField(max_length=100, help_text='Your full name')
+    email = models.EmailField(help_text='Your email address')
+    photo = models.ImageField(
+        upload_to='photos',
+        help_text='Your Photo Image'
+    )
+    submission_date = models.DateTimeField(
+        default=timezone.now,
+        help_text='Date and time of submission'
+    )
+
+    class Meta:
+        ordering = ['-submission_date']
+        verbose_name='Photo Submission'
+        verbose_name_plural='Photo Submissions'
+
+    def __str__(self):
+        """String representation of Photo Submission"""
+        return f"Photo Submission by {self.name} on {self.submission_date.strftime('%Y-%m-%d')}"
