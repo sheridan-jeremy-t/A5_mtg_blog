@@ -3,6 +3,11 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from mtg_blog.models import Post, Topic
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.db import models
+from django.utils import timezone
+from mtg_blog.models import PhotoSubmission
+
 
 class TestTopicModel(TestCase):
     """Test the topic model"""
@@ -72,3 +77,52 @@ def test_topic_get_absolute_url():
     topic = Topic.objects.create(name = 'Red Aggro', slug='red-aggro')
     expected_url = '/topic/red-aggro'
     assert topic.get_absolute_url() == expected_url
+
+@pytest.mark.django_db
+class TestPhotoSubmissionModel:
+    """Test PhotoSubmission model."""
+
+    def test_photo_submission_creation(self):
+        """Test photo submission creation."""
+        # create a test image
+        image = SimpleUploadedFile("test.jpg", b"file_content", content_type="image/jpeg")
+        submission = PhotoSubmission.objects.create(
+            name="Test User",
+            email="test@example.com",
+            photo=image
+        )
+        assert submission.name == "Test User"
+        assert submission.email == "test@example.com"
+        assert submission.photo.name.startswith("contest_photos/")
+        assert submission.submission_date is not None
+
+    def test_photo_submission_str_method(self):
+        """Test string representation of PhotoSubmission."""
+        image = SimpleUploadedFile("test.jpg", b"content", content_type="image/jpeg")
+        submission = PhotoSubmission.objects.create(
+            name="John Doe",
+            email="john@example.com",
+            photo=image
+        )
+        expected = f"Photo submission by John Doe on {submission.submission_date.strftime('%Y/%m/%d')}"
+        assert str(submission) == expected
+
+    def test_model_fields(self):
+        """Test model fields properties."""
+        model_fields = PhotoSubmission._meta.get_fields()
+        field_names = [field.name for field in model_fields]
+
+        assert 'name' in field_names
+        assert 'email' in field_names
+        assert 'photo' in field_names
+        assert 'submission_date' in field_names
+
+    def test_name_max_length(self):
+        """Test model field name max length."""
+        name_field = PhotoSubmission._meta.get_field('name')
+        assert name_field.max_length == 100
+
+    def test_email_field_type(self):
+        """Test model field email type."""
+        email_field = PhotoSubmission._meta.get_field('email')
+        assert isinstance(email_field, models.EmailField)
