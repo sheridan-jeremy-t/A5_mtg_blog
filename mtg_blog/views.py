@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.urls import reverse
 from django.db.models import Count
 from django.views.generic import ListView, DetailView
 from .models import Topic
+from .forms import PhotoSubmissionForm
 
 def home(request):
     """Create the home page when called"""
@@ -37,3 +40,23 @@ class TopicDetailView(DetailView):
             status = 'published'
         ).order_by('-published')
         return context
+
+def contest_view(request):
+    """View for photo contest page"""
+    if request.method == 'POST':
+        form = PhotoSubmissionForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request,
+                'Contest submitted'
+            )
+        return redirect(reverse('mtg_blog_app:home'))
+    else:
+        form = PhotoSubmissionForm()
+
+    context = {
+        'form': form,
+        'page_title' : 'Photo Contest'
+    }
+    return render(request, 'mtg_blog_app/contest.html', context)
