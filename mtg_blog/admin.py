@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Topic, Comment
+from .models import Post, Topic, Comment, PhotoSubmission
 
 @admin.register(Topic)
 class TopicAdmin(admin.ModelAdmin):
@@ -33,3 +33,29 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'post', 'created', 'approved')
     list_filter = ('approved', 'created')
     search_fields = ('name', 'email', 'text')
+
+@admin.register(PhotoSubmission)
+class PhotoSubmissionAdmin(admin.ModelAdmin):
+    """Admin config for PhotoSubmission"""
+    list_display = ['name', 'email', 'submission_date', 'photo_thumbnail']
+    list_filter = ['submission_date']
+    search_fields = ['name', 'email',]
+    readonly_fields = ['submission_date', 'photo_thumbnail']
+    ordering = ['-submission_date',]
+
+    def photo_thumbnail(self, obj):
+        """Display thumbnail in list view"""
+        if obj.photo:
+            return f'<img source="{obj.photo.url}" width="50" height="50" style="object-fit: cover;"/>'
+        return "No Photo"
+    photo_thumbnail.short_description = 'Photo'
+    photo_thumbnail.allow_tags = True
+
+    def photo_preview(self, obj):
+        """Display preview in detail view"""
+        if obj.photo:
+            return f'<img source="{obj.photo.url}" width="300" height="300" style="max-width: 300px;">'
+        return "No Photo Uploaded"
+
+    photo_preview.short_description = 'Photo Preview'
+    photo_preview.allow_tags = True
