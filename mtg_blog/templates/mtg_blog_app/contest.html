@@ -1,0 +1,36 @@
+{% extends 'mtg_blog_app/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+<div class="contest-container">
+    <h1 class="contest-title">Photo Contest</h1>
+
+    <div class="contest-content">
+        <div class="contest-main">
+            <div class="contest-form-section">
+                <h2>Submit Your Photo</h2>
+                <p>Join Our exciting photo contest! Share your best photograph of you playing MTG!!</p>
+
+                <h3>Contest Rules</h3>
+                <ul>
+                    <li>One Submission per person</li>
+                    <li>Photo must be not be AI generated</li>
+                    <li>Maximum file size: 5MB</li>
+                    <li>Accepted formats: JPG, PNG, GIF</li>
+                    <li>Contest ends on: [some date] </li>
+                </ul>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="message message-{{ messages.tags }}">
+                            {{ message }}
+                            <button type="button" class="message-close">&times;</button>
+
+                        </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
