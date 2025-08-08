@@ -81,7 +81,7 @@ class PhotoSubmission(models.Model):
 
     name = models.CharField(max_length=100, help_text='Your full name')
     email = models.EmailField(help_text='Your email address')
-    image = models.ImageField(
+    photo = models.ImageField(
         upload_to='contest_photos/',
         help_text='Upload your contest photo'
     )

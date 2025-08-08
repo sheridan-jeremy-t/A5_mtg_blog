@@ -7,7 +7,7 @@ class PhotoSubmissionForm(forms.ModelForm):
     class Meta:
         """Meta options for PhotoSubmissionForm"""
         model = PhotoSubmission
-        fields = ['name', 'email', 'image']
+        fields = ['name', 'email', 'photo']
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',

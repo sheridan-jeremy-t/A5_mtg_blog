@@ -71,5 +71,5 @@ class TestPhotoSubmissionAdmin:
         assert callable(admin_instance.photo_thumbnail)
 
         thumbnail_html = admin_instance.photo_thumbnail(sample_photo_submission)
-        assert 'img src=' in thumbnail_html
+        assert 'img source=' in thumbnail_html
         assert 'width="50"' in thumbnail_html

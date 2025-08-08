@@ -80,7 +80,7 @@ class TestContestViews:
 
         assert response.status_code == 200
         assert 'form' in response.context
-        assert 'Photo Contest' in response.context.decode()
+        assert 'Photo Contest' in response.content.decode()
 
     def test_contest_page_post_valid(self, client):
         """Test POST request with valid data."""
