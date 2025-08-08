@@ -51,7 +51,7 @@ def contest_view(request):
                 request,
                 'Thank you for submitting to the contest! Best of luck'
             )
-        return redirect(reverse('mtg_blog_app:contest'))
+            return redirect(reverse('mtg_blog_app:contest'))
     else:
         form = PhotoSubmissionForm()
 

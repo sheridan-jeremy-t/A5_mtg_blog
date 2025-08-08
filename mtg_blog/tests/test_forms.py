@@ -8,8 +8,8 @@ class TestPhotoSubmissionForm:
 
     def test_form_valid_data(self):
         test_image = SimpleUploadedFile(
-            'test.jpg',
-            b'fake_image_content',
+            'test_image.jpg',
+            b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x00\x00\x00\x21\xf9\x04\x01\x00\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x04\x01\x00\x3b',
             content_type='image/jpeg'
         )
 
@@ -21,6 +21,12 @@ class TestPhotoSubmissionForm:
             'photo' : test_image,
         }
         test_form = PhotoSubmissionForm(data=form_data, files=form_files)
+
+        if not test_form.is_valid():
+            print("From errors:", test_form.errors)
+            print("From data:", test_form.data)
+            print("From files:", test_form.files)
+
         assert test_form.is_valid()
 
     def test_form_missing_name(self):
