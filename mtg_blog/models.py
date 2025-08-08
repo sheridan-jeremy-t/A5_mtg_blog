@@ -76,7 +76,7 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created']
 
-class PhotoSubmissionForm(models.Model):
+class PhotoSubmission(models.Model):
     """Model for photo contest submission"""
 
     name = models.CharField(max_length=100, help_text='Your full name')
