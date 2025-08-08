@@ -84,3 +84,142 @@ body {
 .sidebar li a:hover {
     background-color: #f0f0f0;
 }
+
+.contest_container{
+    max-width: 120px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.contest-title{
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #333
+}
+
+.contest-content{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem
+    margin-top: 2rem
+}
+
+.contest-main{
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.contest-sidebar{
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: fit-content;
+}
+
+.contest-form{
+    margin-top: 2rem;
+}
+
+.form-input{
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group{
+    margin-top: 2rem;
+}
+
+.form-label{
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-input:focus{
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+}
+
+.file-input{
+    padding: 0.5rem;
+}
+
+.form-errors{
+    margin-top: 0.245rem;
+}
+
+.error-message{
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+.form-help{
+    margin-top: 0.25rem;
+    font-size: 0.075rem;
+    color: #666;
+}
+
+.submit-button{
+    background-color: #007bff;
+    color: white;
+    padding: 0.75rem 2rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s
+}
+
+.submit-button:hover{
+    background-color: #0056b3;
+}
+
+.message {
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.message-success{
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.message-error{
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #155724
+}
+
+.message-close{
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.contest-rules,
+.prize-list,
+.criteria-list{
+    padding-left: 1.5rem;
+}
+
+.contest-rules li,
+.prize-list li,
+.criteria-list li {
+    margin-bottom: 0.5rem
+}
