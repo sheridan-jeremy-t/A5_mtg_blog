@@ -76,14 +76,14 @@ class Comment(models.Model):
     class Meta:
         ordering = ['-created']
 
-class PhotoSubmission(models.Model):
+class PhotoSubmissionForm(models.Model):
     """Model for photo contest submission"""
 
     name = models.CharField(max_length=100, help_text='Your full name')
     email = models.EmailField(help_text='Your email address')
-    photo = models.ImageField(
-        upload_to='photos',
-        help_text='Your Photo Image'
+    image = models.ImageField(
+        upload_to='contest_photos/',
+        help_text='Upload your contest photo'
     )
     submission_date = models.DateTimeField(
         default=timezone.now,
@@ -91,6 +91,7 @@ class PhotoSubmission(models.Model):
     )
 
     class Meta:
+        """Meta options for Photo Submissions"""
         ordering = ['-submission_date']
         verbose_name='Photo Submission'
         verbose_name_plural='Photo Submissions'
