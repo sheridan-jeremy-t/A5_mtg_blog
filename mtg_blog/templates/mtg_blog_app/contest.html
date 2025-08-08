@@ -14,7 +14,7 @@
                 <p>Join Our exciting photo contest! Share your best photograph of you playing MTG!!</p>
 
                 <h3>Contest Rules</h3>
-                <ul>
+                <ul class="contest_rules">
                     <li>One Submission per person</li>
                     <li>Photo must be not be AI generated</li>
                     <li>Maximum file size: 5MB</li>
@@ -26,11 +26,72 @@
                         <div class="message message-{{ messages.tags }}">
                             {{ message }}
                             <button type="button" class="message-close">&times;</button>
-
                         </div>
+                    {% endfor %}
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" class="contest-form">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">Full Name *</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="form-errors">
+                                {% for error in form.name.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email Address *</label>
+                        {{form.email}}
+                        {% if form.email.errors %}
+                            <div class="form-errors">
+                                {% for error in form.email.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.photo.id_for_label }}" class="form-label">Contest Photo *</label>
+                        {{ form.photo }}
+                        {% if form.photo.errors %}
+                            <div class="form-errors">
+                                {% for error in form.photo.errors %}
+                                    <span class="error-message">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-help">
+                            Maximum file size: 5MB. Accepted formats: JPG, PNG, GIF
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button">Submit Entry</button>
+                </form>
+            </div>
+        </div>
+        <div class="contest-sidebar">
+            <div class="prize-section">
+                <h3>Prizes</h3>
+                <ul>
+                    <li>1st Place: 1 box of the latest Standard set</li>
+                    <li>2nd Place: 1 bundle box of the latest Standard Set</li>
+                    <li>3rd Place: 1 Pre-Constructed Commander Deck from the latest Standard Set</li>
+                    <li>People's Choice: 3 packs from the latest Standard Set</li>
+                </ul>
+                <h3>Judging Criteria</h3>
+                <ul class="criteria-list">
+                    <li>Creativity and Originality</li>
+                    <li>Combo Presented</li>
+                    <li>How chaotic the board state is</li>
+                    <li>What happened in the game?</li>
+                </ul>
             </div>
         </div>
     </div>
-
-
 </div>
+{% endblock %}
