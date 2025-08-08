@@ -18,7 +18,7 @@ def admin_user():
     )
 
 @pytest.fixture
-def photo_submission():
+def sample_photo_submission():
     """Create PhotoSubmission fixture"""
     image = SimpleUploadedFile('test.jpg', b'content', content_type='image/jpeg')
     return PhotoSubmission.objects.create(
@@ -31,29 +31,45 @@ def photo_submission():
 class TestPhotoSubmissionAdmin:
     """Test PhotoSubmission admin configuration"""
 
-    def test_admin_list_display(self, admin_user, photo_submission):
+    def test_admin_list_display(self, admin_user, sample_photo_submission):
         """Test admin list display configuration"""
-        admin = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
 
-        assert 'name' in admin.get_list_display
-        assert 'email' in admin.get_list_display
-        assert 'submission_date' in admin.get_list_display
+        assert 'name' in admin_instance.list_display
+        assert 'email' in admin_instance.list_display
+        assert 'submission_date' in admin_instance.list_display
 
-    def test_admin_list_filter(self, admin_user, photo_submission):
+    def test_admin_list_filter(self, admin_user, sample_photo_submission):
         """Test admin list filter configuration"""
-        admin = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
 
-        assert 'submission_date' in admin.get_list_filter
+        assert 'submission_date' in admin_instance.list_filter
 
-    def test_admin_search_field(self, admin_user, photo_submission):
+    def test_admin_search_fields(self, admin_user, sample_photo_submission):
         """Test admin search field configuration"""
-        admin = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
 
-        assert 'name' in admin.get_search_field
-        assert 'email' in admin.get_search_field
+        assert 'name' in admin_instance.search_fields
+        assert 'email' in admin_instance.search_fields
 
-    def test_admin_readonly_fields(self, admin_user, photo_submission):
+    def test_admin_readonly_fields(self, admin_user, sample_photo_submission):
         """Test admin readonly fields configuration"""
-        admin = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
 
-        assert 'submission_date' in admin.get_readonly_fields
+        assert 'submission_date' in admin_instance.readonly_fields
+
+    def test_admin_ordering(self, admin_user, sample_photo_submission):
+        """Test admin ordering configuration"""
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+        assert admin_instance.ordering == ['-submission_date']
+
+    def test_admin_photo_thumbnail_method(self, admin_user, sample_photo_submission):
+        """Test photo thumbnail method exists"""
+        admin_instance = PhotoSubmissionAdmin(PhotoSubmission, AdminSite())
+
+        assert hasattr(admin_instance, 'photo_thumbnail')
+        assert callable(admin_instance.photo_thumbnail)
+
+        thumbnail_html = admin_instance.photo_thumbnail(sample_photo_submission)
+        assert 'img src=' in thumbnail_html
+        assert 'width="50"' in thumbnail_html

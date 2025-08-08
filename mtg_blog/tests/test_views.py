@@ -75,8 +75,8 @@ class TestContestViews:
 
     def test_contest_page_get(self, client):
         """Test GET request to contest page"""
-        url = reverse('mtg_blog_app:contest')
-        response = client.get(url)
+        contest_url = reverse('mtg_blog_app:contest')
+        response = client.get(contest_url)
 
         assert response.status_code == 200
         assert 'form' in response.context
@@ -84,38 +84,58 @@ class TestContestViews:
 
     def test_contest_page_post_valid(self, client):
         """Test POST request with valid data."""
-        url = reverse('mtg_blog_app:contest')
-        image = SimpleUploadedFile(
+        contest_url = reverse('mtg_blog_app:contest')
+        test_image = SimpleUploadedFile(
             'test.jpg',
             b'fake_image_content',
             content_type='image/jpeg'
         )
-        data = {
+        post_data = {
             'name' : 'Test User',
             'email' : 'test@example.com',
-            'photo' : image,
+            'photo' : test_image,
         }
 
-        response = client.post(url, data)
+        response = client.post(contest_url, post_data)
 
         assert response.status_code == 302 #redirect after successful submission
         assert PhotoSubmission.objects.count() == 1
 
-        submission = PhotoSubmission.objects.first()
-        assert submission.name == 'Test User'
-        assert submission.email == 'test@example.com'
+        created_submission = PhotoSubmission.objects.first()
+        assert created_submission.name == 'Test User'
+        assert created_submission.email == 'test@example.com'
 
         def test_contest_page_post_invalid(self, client):
             """Test POST request with invalid data."""
-            url = reverse('mtg_blog_app:contest')
-            data = {
+            contest_url = reverse('mtg_blog_app:contest')
+            invalid_data = {
                 'name' : '',
                 'email' : 'test@example.com',
             }
 
-            response = client.post(url, data)
+            response = client.post(contest_url, invalid_data)
 
             assert response.status_code == 200
             assert PhotoSubmission.objects.count() == 0
             assert 'form' in response.context
             assert response.context['form'].errors
+
+        def test_contest_page_success_message(self, client):
+            """Test success message appears after valid submission."""
+            contest_url = reverse('mtg_blog_app:contest')
+            test_image = SimpleUploadedFile(
+                'success_test.jpg',
+                b'fake_image_content',
+                content_type='image/jpeg'
+            )
+            post_data = {
+                'name' : 'Success User',
+                'email' : 'success@example.com',
+                'photo' : test_image,
+            }
+
+            response = client.post(contest_url, post_data, follow=True)
+
+            messages = list(response.context['messages'])
+            assert len(messages) == 1
+            assert 'Thank you' in str(messages[0])

@@ -7,6 +7,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from django.utils import timezone
 from mtg_blog.models import PhotoSubmission
+from mtg_blog.tests.test_admin import photo_submission
 
 
 class TestTopicModel(TestCase):
@@ -85,11 +86,11 @@ class TestPhotoSubmissionModel:
     def test_photo_submission_creation(self):
         """Test photo submission creation."""
         # create a test image
-        image = SimpleUploadedFile("test.jpg", b"file_content", content_type="image/jpeg")
+        test_image = SimpleUploadedFile("test.jpg", b"fake_image_content", content_type="image/jpeg")
         submission = PhotoSubmission.objects.create(
             name="Test User",
             email="test@example.com",
-            photo=image
+            photo=test_image
         )
         assert submission.name == "Test User"
         assert submission.email == "test@example.com"
@@ -98,14 +99,18 @@ class TestPhotoSubmissionModel:
 
     def test_photo_submission_str_method(self):
         """Test string representation of PhotoSubmission."""
-        image = SimpleUploadedFile("test.jpg", b"content", content_type="image/jpeg")
-        submission = PhotoSubmission.objects.create(
+        test_image = SimpleUploadedFile(
+            "test.jpg",
+            b"fake_image_content",
+            content_type="image/jpeg"
+        )
+        photo_submission = PhotoSubmission.objects.create(
             name="John Doe",
             email="john@example.com",
-            photo=image
+            photo=test_image
         )
-        expected = f"Photo submission by John Doe on {submission.submission_date.strftime('%Y/%m/%d')}"
-        assert str(submission) == expected
+        expected_str = f"Photo submission by John Doe on {photo_submission.submission_date.strftime('%Y/%m/%d')}"
+        assert str(photo_submission) == expected_str
 
     def test_model_fields(self):
         """Test model fields properties."""
